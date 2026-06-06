@@ -12,26 +12,10 @@
     <a href="https://github.com/zawthetzt/netkit/actions"><img src="https://img.shields.io/github/actions/workflow/status/zawthetzt/netkit/ci.yml?style=flat&logo=githubactions" alt="CI"></a>
   </p>
 
-  <!-- Demo GIF placeholder -->
+    <!-- Animated demo SVG -->
   <p>
-    <a href="https://asciinema.org/a/EXAMPLE">
-      <img src="https://img.shields.io/badge/📺%20Watch%20Demo-000?style=for-the-badge" alt="Demo">
-    </a>
+    <img src="demo.svg" alt="netkit demo" width="800">
   </p>
-
-  <pre><code style="background:#1e1e2e; color:#cdd6f4; padding:12px; border-radius:8px; display:inline-block; text-align:left;">
-$ netkit scan 10.0.0.1 -p 22,80,443,3306
-┌─────────────── Open Ports — 10.0.0.1 ───────────────┐
-│ Port  │ Proto │ State │ Service    │ Banner         │
-├───────┼───────┼───────┼────────────┼────────────────┤
-│ 22    │ tcp   │ open  │ SSH        │ OpenSSH_9.6    │
-│ 80    │ tcp   │ open  │ HTTP       │ nginx/1.24     │
-│ 443   │ tcp   │ open  │ HTTPS      │ [TLS OK]       │
-│ 3306  │ tcp   │ open  │ MySQL      │ 8.0.36         │
-└───────┴───────┴───────┴────────────┴────────────────┘
-
-$ netkit dns example.com --types A,MX,NS -o json | jq '...'
-  </code></pre>
 </div>
 
 ---

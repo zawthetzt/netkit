@@ -5,10 +5,37 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "netkit"
 version = "0.1.0"
-description = "A full network engineer's CLI toolkit — ping, port scan, DNS, traceroute, whois, HTTP probe, subnet calculator, packet capture, and more."
+description = "One CLI to ping, scan, trace, query, and probe your network — replaces nmap, dig, whois, ping, traceroute, curl, tcpdump."
 readme = "README.md"
 license = { text = "MIT" }
 requires-python = ">=3.11"
+authors = [
+    { name = "zawthetzt", email = "zawthetzt2017@gmail.com" },
+]
+keywords = [
+    "networking", "network-scanner", "port-scanner", "dns-lookup",
+    "ping", "traceroute", "whois", "subnet-calculator", "packet-capture",
+    "network-engineer", "devops", "cli-tool",
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "Intended Audience :: System Administrators",
+    "Intended Audience :: Telecommunications Industry",
+    "License :: OSI Approved :: MIT License",
+    "Natural Language :: English",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: System :: Networking",
+    "Topic :: System :: Networking :: Monitoring",
+    "Topic :: System :: Systems Administration",
+    "Topic :: Internet",
+    "Topic :: Utilities",
+]
 
 dependencies = [
     "typer>=0.12",
@@ -18,6 +45,12 @@ dependencies = [
     "httpx>=0.27",
     "python-whois>=0.9",
 ]
+
+[project.urls]
+Homepage = "https://github.com/zawthetzt/netkit"
+Repository = "https://github.com/zawthetzt/netkit"
+Documentation = "https://github.com/zawthetzt/netkit#readme"
+"Bug Tracker" = "https://github.com/zawthetzt/netkit/issues"
 
 [project.scripts]
 netkit = "netkit.cli:app"
