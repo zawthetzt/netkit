@@ -307,5 +307,97 @@ def interfaces(
         asyncio.run(list_interfaces(output))
 
 
+# ─── Local Ports ─────────────────────────────────────────────────────────
+
+
+@app.command()
+def local(
+    process: str = typer.Option(None, "--process", "-p", help="Filter by process name"),
+    port: int = typer.Option(None, "--port", help="Check specific port"),
+    output: str = typer.Option("rich", "--output", "-o", help=OUTPUT_HELP),
+):
+    """[green]Local ports scanner[/green] — show all open/listening ports on this machine.
+
+    Examples:
+
+        netkit local
+
+        netkit local --process nginx
+
+        netkit local --port 80
+    """
+    from netkit.local import get_listening_ports, display_ports
+
+    ports = get_listening_ports(process, port)
+    display_ports(ports, output == "json")
+
+
+# ─── Speed Test ──────────────────────────────────────────────────────────
+
+
+@app.command()
+def speed(
+    output: str = typer.Option("rich", "--output", "-o", help=OUTPUT_HELP),
+):
+    """[green]Network speed test[/green] — measure download and upload speeds.
+
+    Examples:
+
+        netkit speed
+    """
+    from netkit.speedtest import run_speedtest, display_result
+
+    result = asyncio.run(run_speedtest())
+    display_result(result, output == "json")
+
+
+# ─── Down Detector ───────────────────────────────────────────────────────
+
+
+@app.command()
+def down(
+    targets: List[str] = typer.Argument(None, help="Service(s) or URL(s) to check (default: popular services)"),
+    output: str = typer.Option("rich", "--output", "-o", help=OUTPUT_HELP),
+):
+    """[green]Down detector[/green] — check if websites/services are up or down.
+
+    Examples:
+
+        netkit down
+
+        netkit down google github cloudflare
+
+        netkit down example.com https://mysite.com
+    """
+    from netkit.downdetector import check_services, display_results
+
+    results = asyncio.run(check_services(targets if targets else None))
+    display_results(results, output == "json")
+
+
+# ─── iftop Monitor ──────────────────────────────────────────────────────
+
+
+@app.command()
+def iftop(
+    interface: str = typer.Option(None, "--interface", "-i", help="Network interface to monitor"),
+    duration: int = typer.Option(60, "--duration", "-d", help="Monitor duration in seconds"),
+    output: str = typer.Option("rich", "--output", "-o", help=OUTPUT_HELP),
+):
+    """[green]Network traffic monitor[/green] — live bandwidth per connection (iftop-style).
+
+    Examples:
+
+        netkit iftop
+
+        netkit iftop -i eth0
+
+        netkit iftop -d 120
+    """
+    from netkit.iftop_ui import run_iftop
+
+    asyncio.run(run_iftop(interface, duration))
+
+
 if __name__ == "__main__":
     app()
