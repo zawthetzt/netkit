@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="800" viewBox="0 0 1280 800">
+  <defs>
+    <style>
+      text { font-family: 'DejaVu Sans Mono', 'Consolas', monospace; font-size: 14px; }
+      .title { font-size: 12px; fill: #ff79c6; }
+      .header { font-size: 14px; fill: #f8f8f2; font-weight: bold; }
+      .cmd { fill: #50fa7b; }
+      .ok { fill: #50fa7b; }
+      .fail { fill: #ff79c6; }
+      .info { fill: #8be9fd; }
+      .highlight { fill: #f1f48d; }
+      .normal { fill: #f8f8f2; }
+      .dim { fill: #6272a4; }
+    </style>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1280" height="800" fill="#282a36"/>
+
+  <!-- Terminal border -->
+  <rect x="10" y="10" width="1260" height="780" fill="none" stroke="#6272a4" stroke-width="2" rx="8"/>
+
+  <!-- Title bar -->
+  <rect x="10" y="10" width="1260" height="35" fill="#1e1f29" rx="8"/>
+  <rect x="10" y="30" width="1260" height="15" fill="#1e1f29"/>
+  <circle cx="30" cy="27" r="6" fill="#ff79c6"/>
+  <circle cx="50" cy="27" r="6" fill="#f1f48d"/>
+  <circle cx="70" cy="27" r="6" fill="#50fa7b"/>
+  <text x="610" y="30" class="header">netkit</text>
+
+  <!-- Content -->
+  <text x="30" y="65">
+    
+    <tspan x="30" dy="0" class="cmd">$ netkit --help</tspan>
+    <tspan x="30" dy="25" class="normal">🧰 A full network engineer's CLI toolkit</tspan>
+    <tspan x="30" dy="25" class="highlight">Commands:</tspan>
+    <tspan x="30" dy="22" class="info">  ping        ICMP ping sweep — single host or subnet scan.</tspan>
+    <tspan x="30" dy="20" class="info">  scan        Port scanner — TCP connect, SYN, and UDP scanning.</tspan>
+    <tspan x="30" dy="20" class="info">  service     Service &amp; banner detection — grab banners from open ports.</tspan>
+    <tspan x="30" dy="20" class="info">  trace       Traceroute — trace the path to a network host.</tspan>
+    <tspan x="30" dy="20" class="info">  dns         DNS toolkit — lookups, reverse DNS, zone transfers.</tspan>
+    <tspan x="30" dy="20" class="info">  whois       Whois lookup — domain &amp; IP registration information.</tspan>
+    <tspan x="30" dy="20" class="info">  http        HTTP probe — check web server status, headers, and TLS.</tspan>
+    <tspan x="30" dy="20" class="info">  subnet      Subnet calculator — calculate subnet details and scan for live hosts.</tspan>
+    <tspan x="30" dy="20" class="info">  capture     Packet capture — live capture with BPF filter.</tspan>
+    <tspan x="30" dy="20" class="info">  interfaces  Network interfaces — show local interface information.</tspan>
+    <tspan x="30" dy="20" class="info">  local       Local ports scanner — show all open/listening ports on this machine.</tspan>
+    <tspan x="30" dy="20" class="info">  speed       Network speed test — measure download and upload speeds.</tspan>
+    <tspan x="30" dy="20" class="info">  down        Down detector — check if websites/services are up or down.</tspan>
+    <tspan x="30" dy="20" class="info">  iftop       Network traffic monitor — live bandwidth per connection (iftop-style).</tspan>
+
+  </text>
+</svg>

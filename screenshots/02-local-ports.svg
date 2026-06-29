@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="800" viewBox="0 0 1280 800">
+  <defs>
+    <style>
+      text { font-family: 'DejaVu Sans Mono', 'Consolas', monospace; font-size: 14px; }
+      .title { font-size: 12px; fill: #ff79c6; }
+      .header { font-size: 14px; fill: #f8f8f2; font-weight: bold; }
+      .cmd { fill: #50fa7b; }
+      .ok { fill: #50fa7b; }
+      .fail { fill: #ff79c6; }
+      .info { fill: #8be9fd; }
+      .highlight { fill: #f1f48d; }
+      .normal { fill: #f8f8f2; }
+      .dim { fill: #6272a4; }
+    </style>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1280" height="800" fill="#282a36"/>
+
+  <!-- Terminal border -->
+  <rect x="10" y="10" width="1260" height="780" fill="none" stroke="#6272a4" stroke-width="2" rx="8"/>
+
+  <!-- Title bar -->
+  <rect x="10" y="10" width="1260" height="35" fill="#1e1f29" rx="8"/>
+  <rect x="10" y="30" width="1260" height="15" fill="#1e1f29"/>
+  <circle cx="30" cy="27" r="6" fill="#ff79c6"/>
+  <circle cx="50" cy="27" r="6" fill="#f1f48d"/>
+  <circle cx="70" cy="27" r="6" fill="#50fa7b"/>
+  <text x="610" y="30" class="header">netkit local</text>
+
+  <!-- Content -->
+  <text x="30" y="65">
+    
+    <tspan x="30" dy="0" class="cmd">$ netkit local</tspan>
+    <tspan x="30" dy="25" class="highlight">🖥️  Local Open Ports — zack</tspan>
+    <tspan x="30" dy="25" class="info">┌───────┬───────┬────────┬───────────────┬─────────┬──────┐</tspan>
+    <tspan x="30" dy="18" class="info">│  PORT │ PROTO │ STATE  │ ADDRESS       │ PROCESS │ PID  │</tspan>
+    <tspan x="30" dy="18" class="info">├───────┼───────┼────────┼───────────────┼─────────┼──────┤</tspan>
+    <tspan x="30" dy="18" class="ok">│    53 │ TCP   │ LISTEN │ 127.0.0.53    │ systemd │ -    │</tspan>
+    <tspan x="30" dy="18" class="ok">│    80 │ TCP   │ LISTEN │ 0.0.0.0       │ nginx   │ 1234 │</tspan>
+    <tspan x="30" dy="18" class="ok">│   443 │ TCP   │ LISTEN │ 0.0.0.0       │ nginx   │ 1234 │</tspan>
+    <tspan x="30" dy="18" class="ok">│  3306 │ TCP   │ LISTEN │ 127.0.0.1     │ mysqld  │ 5678 │</tspan>
+    <tspan x="30" dy="18" class="ok">│  8080 │ TCP   │ LISTEN │ 0.0.0.0       │ node    │ 9012 │</tspan>
+    <tspan x="30" dy="18" class="info">└───────┴───────┴────────┴───────────────┴─────────┴──────┘</tspan>
+    <tspan x="30" dy="25" class="normal">Total: 5 open ports</tspan>
+
+  </text>
+</svg>

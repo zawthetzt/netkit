@@ -1,0 +1,33 @@
+                                                                                
+ Usage: python -m netkit [OPTIONS] COMMAND [ARGS]...                            
+                                                                                
+ 🧰 A full network engineer's CLI toolkit                                       
+                                                                                
+╭─ Options ────────────────────────────────────────────────────────────────────╮
+│ --version             -V        Show the version and exit.                   │
+│ --verbose             -v        Enable verbose output.                       │
+│ --install-completion            Install completion for the current shell.    │
+│ --show-completion               Show completion for the current shell, to    │
+│                                 copy it or customize the installation.       │
+│ --help                          Show this message and exit.                  │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─ Commands ───────────────────────────────────────────────────────────────────╮
+│ ping        ICMP ping sweep — single host or subnet scan.                    │
+│ scan        Port scanner — TCP connect, SYN, and UDP scanning.               │
+│ service     Service & banner detection — grab banners from open ports.       │
+│ trace       Traceroute — trace the path to a network host.                   │
+│ dns         DNS toolkit — lookups, reverse DNS, zone transfers.              │
+│ whois       Whois lookup — domain & IP registration information.             │
+│ http        HTTP probe — check web server status, headers, and TLS.          │
+│ subnet      Subnet calculator — calculate subnet details and scan for live   │
+│             hosts.                                                           │
+│ capture     Packet capture — live capture with BPF filter.                   │
+│ interfaces  Network interfaces — show local interface information.           │
+│ local       Local ports scanner — show all open/listening ports on this      │
+│             machine.                                                         │
+│ speed       Network speed test — measure download and upload speeds.         │
+│ down        Down detector — check if websites/services are up or down.       │
+│ iftop       Network traffic monitor — live bandwidth per connection          │
+│             (iftop-style).                                                   │
+╰──────────────────────────────────────────────────────────────────────────────╯
+
