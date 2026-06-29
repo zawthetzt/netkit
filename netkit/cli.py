@@ -399,6 +399,54 @@ def iftop(
     asyncio.run(run_iftop(interface, duration))
 
 
+# ─── Device ─────────────────────────────────────────────────────────────
+
+
+@app.command()
+def device(
+    host: str = typer.Argument(..., help="Device IP/hostname or console port (e.g., /dev/ttyUSB0)"),
+    vendor: str = typer.Option(..., "--vendor", "-v", help="Device vendor: cisco, juniper"),
+    username: str = typer.Option("admin", "--username", "-u", help="SSH username"),
+    password: str = typer.Option("", "--password", "-p", help="SSH password (will prompt if empty)"),
+    port: int = typer.Option(22, "--port", help="SSH port"),
+    console: bool = typer.Option(False, "--console", "-c", help="Use console (serial) connection"),
+    baud: int = typer.Option(9600, "--baud", help="Serial baud rate (console mode only)"),
+    cmd: str = typer.Option(None, "--cmd", help="Command to execute"),
+    interactive: bool = typer.Option(False, "--interactive", "-i", help="Start interactive session"),
+    output: str = typer.Option("rich", "--output", "-o", help=OUTPUT_HELP),
+):
+    """[green]Network device[/green] — connect to Cisco NX-OS or Juniper Junos via SSH or console.
+
+    Examples:
+
+        netkit device 192.168.1.1 --vendor cisco --cmd "show version"
+
+        netkit device 192.168.1.1 --vendor juniper --cmd "show interfaces terse"
+
+        netkit device /dev/ttyUSB0 --vendor cisco --console --interactive
+
+        netkit device 192.168.1.1 -v cisco -u admin -p password --cmd "show vlan"
+    """
+    from netkit.device import device_connect
+
+    if not password:
+        import getpass
+        password = getpass.getpass("Password: ")
+
+    asyncio.run(device_connect(
+        host=host,
+        vendor=vendor,
+        username=username,
+        password=password,
+        port=port,
+        console_mode=console,
+        baud=baud,
+        command=cmd,
+        interactive=interactive,
+        output=output,
+    ))
+
+
 # ─── MCP Server ─────────────────────────────────────────────────────────
 
 

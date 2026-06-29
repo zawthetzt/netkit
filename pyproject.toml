@@ -48,6 +48,7 @@ dependencies = [
 
 [project.optional-dependencies]
 mcp = ["mcp>=1.0"]
+device = ["netmiko>=4.0", "pyserial>=3.5", "pyserial-asyncio>=0.6"]
 
 [project.urls]
 Homepage = "https://github.com/zawthetzt/netkit"
