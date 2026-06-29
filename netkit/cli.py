@@ -39,6 +39,40 @@ def main(
     pass
 
 
+# ─── Check ───────────────────────────────────────────────────────────────
+
+
+@app.command()
+def check(
+    targets: List[str] = typer.Argument(..., help="Target host(s) or URL(s) to check"),
+    quick: bool = typer.Option(False, "--quick", "-q", help="Quick check (ping + ports only)"),
+    deep: bool = typer.Option(False, "--deep", "-d", help="Deep check (includes traceroute)"),
+    output: str = typer.Option("rich", "--output", "-o", help=OUTPUT_HELP),
+):
+    """[green]Check[/green] — one command, full network report.
+
+    Runs ping, DNS, ports, HTTP, SSL checks in one command.
+
+    Examples:
+
+        netkit check example.com
+
+        netkit check 192.168.1.1 --quick
+
+        netkit check example.com --deep
+
+        netkit check example.com google.com
+    """
+    from netkit.check import run_check, display_result
+
+    async def run_all():
+        for target in targets:
+            result = await run_check(target, quick, deep)
+            display_result(result, output == "json")
+
+    asyncio.run(run_all())
+
+
 # ─── Ping ────────────────────────────────────────────────────────────────
 
 
