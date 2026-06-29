@@ -20,6 +20,11 @@
         "BRAVE_API_KEY": "${BRAVE_API_KEY}"
       },
       "description": "Web search for network documentation and troubleshooting"
+    },
+    "netkit": {
+      "command": "netkit",
+      "args": ["mcp"],
+      "description": "Network diagnostics tools - ping, scan, dns, whois, trace, http, local, down"
     }
   }
 }
