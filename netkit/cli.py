@@ -403,48 +403,153 @@ def iftop(
 
 
 @app.command()
-def device(
-    host: str = typer.Argument(..., help="Device IP/hostname or console port (e.g., /dev/ttyUSB0)"),
-    vendor: str = typer.Option(..., "--vendor", "-v", help="Device vendor: cisco, juniper"),
-    username: str = typer.Option("admin", "--username", "-u", help="SSH username"),
+def connect(
+    host_or_name: str = typer.Argument(..., help="Device IP/hostname or saved profile name"),
+    vendor: str = typer.Option(None, "--cisco", "--juniper", help="Device vendor (auto-detect if saved)"),
+    username: str = typer.Option(None, "--username", "-u", help="SSH username"),
     password: str = typer.Option("", "--password", "-p", help="SSH password (will prompt if empty)"),
-    port: int = typer.Option(22, "--port", help="SSH port"),
     console: bool = typer.Option(False, "--console", "-c", help="Use console (serial) connection"),
-    baud: int = typer.Option(9600, "--baud", help="Serial baud rate (console mode only)"),
-    cmd: str = typer.Option(None, "--cmd", help="Command to execute"),
+    cmd: str = typer.Argument(None, help="Command to execute"),
     interactive: bool = typer.Option(False, "--interactive", "-i", help="Start interactive session"),
     output: str = typer.Option("rich", "--output", "-o", help=OUTPUT_HELP),
 ):
-    """[green]Network device[/green] — connect to Cisco NX-OS or Juniper Junos via SSH or console.
+    """[green]Connect[/green] to a network device — SSH or console.
 
     Examples:
 
-        netkit device 192.168.1.1 --vendor cisco --cmd "show version"
+        netkit connect 192.168.1.1 --cisco
 
-        netkit device 192.168.1.1 --vendor juniper --cmd "show interfaces terse"
+        netkit connect 192.168.1.1 --juniper "show interfaces terse"
 
-        netkit device /dev/ttyUSB0 --vendor cisco --console --interactive
+        netkit connect /dev/ttyUSB0 --cisco --console -i
 
-        netkit device 192.168.1.1 -v cisco -u admin -p password --cmd "show vlan"
+        netkit connect nexus1  (saved profile)
     """
     from netkit.device import device_connect
+    from netkit.profiles import ProfileManager, parse_vendor, detect_vendor_from_host
 
+    manager = ProfileManager()
+
+    # Check if it's a saved profile name
+    profile = manager.get_profile(host_or_name)
+    if profile:
+        host = profile.host
+        vendor_name = profile.vendor
+        if not username:
+            username = profile.username
+        if not password:
+            password = profile.password
+        console = profile.console or console
+    else:
+        host = host_or_name
+        # Detect vendor from flag or hostname
+        if vendor:
+            vendor_name = vendor.replace("--", "")
+        else:
+            vendor_name = detect_vendor_from_host(host)
+            if vendor_name == "unknown":
+                rprint("[red]Could not detect vendor. Use --cisco or --juniper[/red]")
+                raise typer.Exit(1)
+
+    if not username:
+        username = "admin"
     if not password:
         import getpass
         password = getpass.getpass("Password: ")
 
     asyncio.run(device_connect(
         host=host,
-        vendor=vendor,
+        vendor=vendor_name,
         username=username,
         password=password,
-        port=port,
         console_mode=console,
-        baud=baud,
         command=cmd,
         interactive=interactive,
         output=output,
     ))
+
+
+@app.command(name="save")
+def save_device(
+    name: str = typer.Argument(..., help="Profile name (e.g., nexus1)"),
+    host: str = typer.Argument(..., help="Device IP/hostname or console port"),
+    vendor: str = typer.Option(None, "--cisco", "--juniper", help="Device vendor"),
+    username: str = typer.Option("admin", "--username", "-u", help="SSH username"),
+    password: str = typer.Option("", "--password", "-p", help="SSH password"),
+    console: bool = typer.Option(False, "--console", "-c", help="Console (serial) connection"),
+    description: str = typer.Option("", "--desc", help="Device description"),
+):
+    """[green]Save[/green] a device profile for quick access.
+
+    Examples:
+
+        netkit save nexus1 192.168.1.1 --cisco -u admin
+
+        netkit save juniper1 10.0.0.1 --juniper -u admin
+
+        netkit save lab-switch /dev/ttyUSB0 --cisco --console
+    """
+    from netkit.profiles import ProfileManager, DeviceProfile, parse_vendor, detect_vendor_from_host
+
+    # Detect vendor
+    if vendor:
+        vendor_name = vendor.replace("--", "")
+    else:
+        vendor_name = detect_vendor_from_host(host)
+        if vendor_name == "unknown":
+            rprint("[red]Could not detect vendor. Use --cisco or --juniper[/red]")
+            raise typer.Exit(1)
+
+    profile = DeviceProfile(
+        name=name,
+        host=host,
+        vendor=vendor_name,
+        username=username,
+        password=password,
+        console=console,
+        description=description,
+    )
+
+    manager = ProfileManager()
+    manager.save_profile(profile)
+
+    rprint(f"[green]✅ Saved device '{name}' ({host})[/green]")
+
+
+@app.command(name="devices")
+def list_devices(
+    output: str = typer.Option("rich", "--output", "-o", help=OUTPUT_HELP),
+):
+    """[green]List[/green] saved device profiles.
+
+    Examples:
+
+        netkit devices
+    """
+    from netkit.profiles import ProfileManager, display_profiles
+
+    manager = ProfileManager()
+    profiles = manager.list_profiles()
+    display_profiles(profiles, output == "json")
+
+
+@app.command(name="delete")
+def delete_device(
+    name: str = typer.Argument(..., help="Profile name to delete"),
+):
+    """[green]Delete[/green] a saved device profile.
+
+    Examples:
+
+        netkit delete nexus1
+    """
+    from netkit.profiles import ProfileManager
+
+    manager = ProfileManager()
+    if manager.delete_profile(name):
+        rprint(f"[green]✅ Deleted device '{name}'[/green]")
+    else:
+        rprint(f"[red]❌ Device '{name}' not found[/red]")
 
 
 # ─── MCP Server ─────────────────────────────────────────────────────────
