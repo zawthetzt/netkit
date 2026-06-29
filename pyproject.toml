@@ -46,6 +46,9 @@ dependencies = [
     "python-whois>=0.9",
 ]
 
+[project.optional-dependencies]
+mcp = ["mcp>=1.0"]
+
 [project.urls]
 Homepage = "https://github.com/zawthetzt/netkit"
 Repository = "https://github.com/zawthetzt/netkit"

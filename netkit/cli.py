@@ -399,5 +399,38 @@ def iftop(
     asyncio.run(run_iftop(interface, duration))
 
 
+# ─── MCP Server ─────────────────────────────────────────────────────────
+
+
+@app.command()
+def mcp():
+    """[green]MCP server[/green] — expose netkit tools to AI assistants via Model Context Protocol.
+
+    Starts an MCP server that allows Claude, Cursor, and other AI tools
+    to run network diagnostics through netkit.
+
+    Examples:
+
+        netkit mcp
+
+    Then add to your .mcp.json:
+        {
+          "mcpServers": {
+            "netkit": {
+              "command": "netkit",
+              "args": ["mcp"]
+            }
+          }
+        }
+    """
+    try:
+        from netkit.mcp_server import run
+        run()
+    except ImportError:
+        rprint("[red]MCP package not installed.[/red]")
+        rprint("Install with: [bold]pip install 'netkit[mcp]'[/bold]")
+        raise typer.Exit(1)
+
+
 if __name__ == "__main__":
     app()
